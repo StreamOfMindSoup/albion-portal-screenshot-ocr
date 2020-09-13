@@ -1,3 +1,11 @@
+# Albion Portal Screenshot OCR
+
+A tool for Albion Online to extract Mists portal (Road of Avalon) data from screenshots.
+
+Currently only works with screenshots of the game in English, running fullscreen at a resolution of 1920x1080. The screenshots must be taken while mousing over a portal on the minimap.
+
+The app is hosted at: https://streamofmindsoup.github.io/albion-portal-screenshot-ocr/
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
