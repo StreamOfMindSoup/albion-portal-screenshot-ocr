@@ -11,13 +11,13 @@ const ProcessedDestination: React.FC<{ imageUrl: string }> = (props) => {
     this.greyscale();
     this.threshold(128);
   });
+  const postProcessed = React.useMemo(() => bestCluster(parsed), [parsed]);
   return (
     <OcrRow
       imageUrl={imageUrl}
       camanCallback={camanCallback}
-      parsed={parsed}
+      parsed={postProcessed}
       progress={progress}
-      postProcess={bestCluster}
       field="to"
     />
   );

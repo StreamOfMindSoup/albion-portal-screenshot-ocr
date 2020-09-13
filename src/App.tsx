@@ -4,14 +4,17 @@ import ScreenshotStore from "./components/ScreenshotStore";
 import Uploader from "./components/Uploader";
 import ProcessedScreenshotList from "./components/ProcessedScreenshotList";
 import DataBox from "./components/DataBox";
+import DataStore from "./components/DataStore";
 
 function App() {
   return (
-    <ScreenshotStore>
-      <Uploader />
-      <DataBox />
-      <ProcessedScreenshotList />
-    </ScreenshotStore>
+    <DataStore>
+      <ScreenshotStore>
+        <Uploader />
+        <DataBox />
+        <ProcessedScreenshotList />
+      </ScreenshotStore>
+    </DataStore>
   );
 }
 

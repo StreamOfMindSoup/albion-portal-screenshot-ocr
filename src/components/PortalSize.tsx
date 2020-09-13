@@ -1,17 +1,14 @@
-import React, { useContext } from "react";
-import OcrRow from "./OcrRow";
-import { useCaman } from "../hooks";
+import React, { useContext, useCallback } from "react";
 import {
   TableRow,
   TableCell,
-  Input,
   RadioGroup,
   Radio,
   FormControlLabel,
 } from "@material-ui/core";
 import CamanCanvas from "./CamanCanvas";
 import { ScreenshotContext } from "./ProcessedScreenshot";
-import { ScreenshotStoreContext } from "./ScreenshotStore";
+import { DataStoreContext } from "./DataStore";
 
 const field = "size";
 
@@ -26,17 +23,24 @@ const PortalSize: React.FC<{ imageUrl: string }> = (props) => {
       const imageData = ctx.getImageData(34, 22, 1, 1);
       const [r, g, b] = Array.from(imageData.data);
       if (r > 160) {
-        updateData(screenshot.id, field, "RAID");
+        updateValue("RAID");
       } else if (g > 160) {
-        updateData(screenshot.id, field, "SOLO");
+        updateValue("SOLO");
       } else if (b > 160) {
-        updateData(screenshot.id, field, "GROUP");
+        updateValue("GROUP");
       }
     });
   };
 
   const screenshot = useContext(ScreenshotContext);
-  const { updateData, data } = useContext(ScreenshotStoreContext);
+  const { updateData, data } = useContext(DataStoreContext);
+  const updateValue = useCallback(
+    (value) => updateData(screenshot.id, field, value),
+    [screenshot.id, field, updateData]
+  );
+  const updateHandler = useCallback((e) => updateValue(e.target.value), [
+    updateValue,
+  ]);
   return (
     <TableRow>
       <TableCell>
@@ -45,8 +49,11 @@ const PortalSize: React.FC<{ imageUrl: string }> = (props) => {
       <TableCell>
         <RadioGroup
           row
-          value={data && data[screenshot.id] && data[screenshot.id][field] || "MISSING"}
-          onChange={(e) => updateData(screenshot.id, field, e.target.value)}
+          value={
+            (data && data[screenshot.id] && data[screenshot.id][field]) ||
+            "MISSING"
+          }
+          onChange={updateHandler}
         >
           <FormControlLabel value="SOLO" control={<Radio />} label="2" />
           <FormControlLabel value="GROUP" control={<Radio />} label="7" />
